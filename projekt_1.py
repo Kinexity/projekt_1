@@ -1,29 +1,52 @@
 import numpy as np
 import itertools as it
+import math as m
+import time
 
-def test_condition(sequence, sqrt_list, a):
-	return np.sum(np.multiply(sequence,sqrt_list)) < a
+start = time.clock()
+#lista=[]
+#lista2=[]
+lista3=[]
+lista4=[]
+lista5=[]
+for i in range(1,2*3):
+	#lista.append(m.sqrt((i/2)*(i/2+1)))
+	#lista2=lista+lista
+	#lista2.sort()
+	lista3.append(i/2)
+	lista4 = lista3+lista3
+	lista4.sort()
+	#rozważamy same dodatnie
 
-def generate_sqrt_list(n):
-	sqrt_list = []
-	for i in range(1,n):
-		sqrt_list.append(np.sqrt(i / 2. * (i / 2. + 1)))
-	return np.array(sqrt_list)
+print(lista4)
+count,start,a,b,end=0,0,0,2,2
+#print(suma)
+try:
+	while a<=4*(3-0.5)-3:
+		suma=sum(lista4[a:b])
+		if lista4[end]+suma<3:
+			lista5.append(lista4[a])
+			lista5.append(lista4[b-1])
+			lista5.append(lista4[end])
+			print(lista5)
+			lista5.clear()
+			count+=1
+			end+=1
+			print(count)
+		else:
+			end=b+1
+			b+=1
+			#print(b)
+		if b>4*(3-0.5)-1:
+			a=a+1
+			b=a+2
+			end=b
+		if end>4*(3-0.5)-1:
+			end=b+1
+			b+=1
+			suma =suma-lista4[b-2]+lista4[b-1]
+except IndexError:
+	pass
 
-def generate_sequences(n):
-	return it.product(range(3), repeat=n-1)
-
-def run(a):
-	d_trn = [1,2,1]
-	n = int(np.ceil(np.sqrt(1 + 4 * a ** 2) + 1))
-	sqrt_list = generate_sqrt_list(n)
-	sequences = [np.array(lst) for lst in generate_sequences(n)]
-	correct_sequences = [sq for sq in sequences if test_condition(sq, sqrt_list, a)]
-	transformed_sequences = [np.array([d_trn[elem] for elem in sq]) for sq in correct_sequences]
-	sum = -1
-	for sq in transformed_sequences:
-		sum += np.prod(sq)
-	return sum
-
-for i in range(1, 11):
-	print(i,"	",run(i))
+koniec=time.clock()
+print(koniec-start)
