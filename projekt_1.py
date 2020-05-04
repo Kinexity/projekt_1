@@ -4,48 +4,59 @@ import math as m
 import time
 
 start = time.clock()
-#lista=[]
-#lista2=[]
-lista3 = []
-lista4 = []
-lista5 = []
-for i in range(1,2 * 3):
-	#lista.append(m.sqrt((i/2)*(i/2+1)))
-	#lista2=lista+lista
-	#lista2.sort()
-	lista3.append(i / 2)
-	lista4 = lista3 + lista3
-	lista4.sort()
-	#rozważamy same dodatnie
-print(lista4)
-count,start,a,b,end = 0,0,0,2,2
-#print(suma)
-try:
-	while a <= 4 * (3 - 0.5) - 3:
-		suma = sum(lista4[a:b])
-		if lista4[end] + suma < 3:
-			lista5.append(lista4[a])
-			lista5.append(lista4[b - 1])
-			lista5.append(lista4[end])
-			print(lista5)
-			lista5.clear()
-			count+=1
-			end+=1
-			print(count)
-		else:
-			end = b + 1
-			b+=1
-			#print(b)
-		if b > 4 * (3 - 0.5) - 1:
-			a = a + 1
-			b = a + 2
-			end = b
-		if end > 4 * (3 - 0.5) - 1:
-			end = b + 1
-			b+=1
-			suma = suma - lista4[b - 2] + lista4[b - 1]
-except IndexError:
-	pass
+list=[]
+s=16
+c=m.ceil(2*s)/2
 
-koniec = time.clock()
-print(koniec - start)
+print(s)
+#suma maksymalna cyfr
+
+lista={}
+for q in range(1,int(2*c)):
+	lista[q]=[]
+lista[1]=[]
+for x in range(1,int(2*c)):
+	#lista[1].append(m.sqrt((i/2)*(i/2+1)))
+	list.append(x/2)
+	list.sort()
+
+lista[1]=list
+i=0
+#indeks listy jedynkowej
+b=0
+#indeks list a>1
+count=0
+
+c=1
+#numer listy
+
+try:
+	while i<len(lista[c]):
+		if lista[c][i]+lista[1][b]<s:
+			lista[c+1].append(lista[c][i]+lista[1][b])
+			'''lista[c+1].sort()'''
+			i=i+1
+		if lista[c][i]+lista[1][b]>=s and b<len(lista[1])-1:
+			b=b+1
+			i=0
+		'''if lista[c][i]-lista[1][0]>=s:
+			c=c+1
+			b=0'''
+		if b==len(lista[1])-1 and c<2*s:
+			c=c+1
+			b=0
+			count=count+len(lista[c-1])
+			if c!=2:
+				lista[c-1].clear()
+except KeyError:
+	pass
+print(count)
+'''print(lista[1])
+print(lista[2])
+print(lista[3])
+print(lista[4])
+print(lista[5])'''
+#sprawdzenie
+
+koniec=time.clock()
+print(koniec-start)
