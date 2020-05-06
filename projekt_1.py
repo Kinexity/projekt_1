@@ -14,15 +14,15 @@ def gen_and_check(sequence_sqrt_sum: int, sequence_length: int, possible_sequenc
 	for sqrt_to_insert_index in range(sqrt_list_index, length_of_sqrt_list):
 		sqrt_to_insert = sqrt_list[sqrt_to_insert_index]
 		max_possible_sqrts_inserted = m.floor((a - sequence_sqrt_sum) / sqrt_to_insert)
-		for sqrts_inserted in range(1, max_possible_sqrts_inserted + 1):
-			possible_ways_to_insert = places_to_insert_new_sqrt ** sqrts_inserted
-			inserted_elements_sign_variations = 2 ** sqrts_inserted
+		for number_of_sqrts_inserted in range(1, max_possible_sqrts_inserted + 1):
+			possible_ways_to_insert = places_to_insert_new_sqrt ** number_of_sqrts_inserted
+			inserted_elements_sign_variations = 2 ** number_of_sqrts_inserted
 			possible_sequence_permutations_local = possible_sequence_permutations * possible_ways_to_insert * inserted_elements_sign_variations
-			new_sequence_sqrt_sum = sequence_sqrt_sum + sqrts_inserted * sqrt_to_insert
+			new_sequence_sqrt_sum = sequence_sqrt_sum + number_of_sqrts_inserted * sqrt_to_insert
 			new_sqrt_list_index = sqrt_to_insert_index + 1
 			if (new_sqrt_list_index < length_of_sqrt_list):
 				possible_sequences_permutations_sum_local += possible_sequence_permutations_local
-				new_sequence_length = sequence_length + sqrts_inserted
+				new_sequence_length = sequence_length + number_of_sqrts_inserted
 				possible_sequences_permutations_sum_local += gen_and_check(new_sequence_sqrt_sum, new_sequence_length, possible_sequence_permutations_local, new_sqrt_list_index)
 	return possible_sequences_permutations_sum_local
 
