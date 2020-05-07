@@ -13,7 +13,7 @@ def factorial(n):
 #funkcja silnia
 list1=[]
 list2=[]
-sum=3
+sum=2
 print(sum)
 #suma maksymalna cyfr
 
@@ -28,9 +28,9 @@ for q in range(1,int(2*c)):
 lista[1]=[]
 #zrobilem słownik list tak żeby było nie za dużo nie za mało
 for x in range(1,int(2*c)):
-	list1.append([m.sqrt((x/2)*(x/2+1)),str(x-1)])
+	list1.append([m.sqrt((x/2)*(x/2+1)),str(2*(x-1))])
 for x in range(1,int(2*c)):
-    list2.append([m.sqrt((x/2)*(x/2+1)),str(x-1+len(list1))])
+    list2.append([m.sqrt((x/2)*(x/2+1)),str(2*x-1)])
 	#list.append([x/2,str(x-1)])
 	#list.append(-x/2)
 #zrobiłem listę podlist długości 2: pierwsza cyfra podlisty- wartość funkcji m.sqrt((x/2)*(x/2+1))
