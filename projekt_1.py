@@ -50,6 +50,41 @@ def gen_and_check_debug(sequence_sqrt_sum, sequence_length, possible_sequence_pe
 		check_list.append(0) # testing
 	return possible_sequences_permutations_sum_local
 
+def new_run(a_arg):
+	global sqrt_list
+	global a
+	global length_of_sqrt_list
+	a = a_arg
+	n = int(m.ceil(m.sqrt(1 + 4 * a ** 2) + 1))
+	sqrt_list = [m.sqrt(i / 2. * (i / 2. + 1)) for i in range(1,n)]
+	length_of_sqrt_list = len(sqrt_list)
+	maximal_sequence_length = m.floor(a / sqrt_list[0])
+	possible_sequences = 0
+	for sequence_lenght in range(1, maximal_sequence_length + 1):
+		#print("	sequence_lenght ",sequence_lenght)
+		max_lower_sqrt_list_index = 0
+		for sqrt_list_index in range(length_of_sqrt_list + 1):
+			#print("sqrt_list_index ",sqrt_list_index)
+			#print("sequence_lenght * sqrt_list[sqrt_list_index] ",sequence_lenght * sqrt_list[sqrt_list_index])
+			if (sqrt_list_index == length_of_sqrt_list or sequence_lenght * sqrt_list[sqrt_list_index] > a):
+				max_lower_sqrt_list_index = sqrt_list_index - 1
+				break
+		#print("max_lower_sqrt_list_index ",max_lower_sqrt_list_index)
+		max_higher_sqrt_list_index_occurences = 0
+		for higher_sqrt_list_index_occurences in range(sequence_lenght + 1):
+			#print("higher_sqrt_list_index_occurences ",higher_sqrt_list_index_occurences)
+			#print("thing ", higher_sqrt_list_index_occurences * sqrt_list[max_lower_sqrt_list_index + 1] + (sequence_lenght - higher_sqrt_list_index_occurences) * sqrt_list[max_lower_sqrt_list_index])
+			if (higher_sqrt_list_index_occurences * sqrt_list[max_lower_sqrt_list_index + 1] + (sequence_lenght - higher_sqrt_list_index_occurences) * sqrt_list[max_lower_sqrt_list_index] > a):
+				max_higher_sqrt_list_index_occurences = higher_sqrt_list_index_occurences - 1
+				break
+		#print("max_higher_sqrt_list_index_occurences ",max_higher_sqrt_list_index_occurences)
+		max_index_sum = (sequence_lenght - max_higher_sqrt_list_index_occurences) * max_lower_sqrt_list_index + max_higher_sqrt_list_index_occurences * (max_lower_sqrt_list_index + 1)
+		#print("max_index_sum ",max_index_sum)
+		possible_sequences += sum([m.comb(index_sum + sequence_lenght - 1, index_sum) for index_sum in range(0, max_index_sum + 1)]) * 2 ** sequence_lenght
+	return possible_sequences
+
+
+
 
 def run(a_arg, debug):
 	global sqrt_list
@@ -65,11 +100,16 @@ def run(a_arg, debug):
 	else:
 		return gen_and_check(0, 0, 1, 0)
 
-db = True
+db = False
 for i in range(1, 200):
+	print("Iteration: ", i)
 	start = time.perf_counter()
 	res = run(i, db)
 	koniec = time.perf_counter()
 	print(i,"	", res, "	", round(koniec - start,5))
-	if (db):
-		input()
+	start = time.perf_counter()
+	res = new_run(i)
+	koniec = time.perf_counter()
+	print(i,"	", res, "	", round(koniec - start,5))
+	#if (db):
+	input()
