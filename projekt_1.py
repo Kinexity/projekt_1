@@ -11,9 +11,8 @@ def factorial(n):
         fact = fact * i
     return fact
 #funkcja silnia
-list1=[]
-list2=[]
-sum=2
+list=[]
+sum=7
 print(sum)
 #suma maksymalna cyfr
 
@@ -28,14 +27,12 @@ for q in range(1,int(2*c)):
 lista[1]=[]
 #zrobilem słownik list tak żeby było nie za dużo nie za mało
 for x in range(1,int(2*c)):
-	list1.append([m.sqrt((x/2)*(x/2+1)),str(2*(x-1))])
-for x in range(1,int(2*c)):
-    list2.append([m.sqrt((x/2)*(x/2+1)),str(2*x-1)])
+	list.append([m.sqrt((x/2)*(x/2+1)),str(x-1)])
 	#list.append([x/2,str(x-1)])
 	#list.append(-x/2)
 #zrobiłem listę podlist długości 2: pierwsza cyfra podlisty- wartość funkcji m.sqrt((x/2)*(x/2+1))
 #od liczby w podanym zbiorze, druga-indeks tej podlisty
-lista[1]=sorted(list1+list2,key=lambda x:x[0])
+lista[1]=sorted(list,key=lambda x:x[0])
 #sortowanie wzgl. pierwszego elementu podlisty
 index=0
 #indeks list a>1
@@ -51,10 +48,10 @@ try:
             if str(lista[list_number][index][1]).find(str(bindex))==-1:
                 lista[list_number+1].append([lista[list_number][index][0]+lista[1][bindex][0],str(lista[list_number][index][1])+str(bindex)])
             else:
-                lista[list_number+1].append([lista[list_number][index][0]+lista[1][bindex][0],lista[list_number][index][1]])
-            powtorzenia=list_number+1-len(str(lista[list_number+1][-1][1]))+1
-            count=count+factorial(list_number+1-powtorzenia)*factorial(list_number+1)/(factorial(list_number+1-powtorzenia)*factorial(powtorzenia))
-            index=index+1
+                lista[list_number+1].append([lista[list_number][index][0]+lista[1][bindex][0],lista[list_number][index][1]+str(bindex)])
+
+            count=count+2**(list_number)
+            index+=1
 #wpierw przelatuje indexy dla ustalonego bindexu i sprawdzam dla każdych dwóch ich sume. Jeśli indeks cyfry z listy początkowej(jedynek) nie wystąpił w drugiej cyfrze
 #podlisty listy sum, to nie dolepiam tego indeksu do zlepku indeksów (drugiej cyfry podlisty), jak nie wystąpił to dolepiam ją do tego zlepka
 #od drugiej linijki z kombinatoryki licze kombinacje dla ewentualnie tych samych bindexów w zlepku i nie tych samych (stosuje dwumian Newtona)
@@ -67,19 +64,19 @@ try:
             lista[list_number]=sorted(lista[list_number],key=lambda x:x[0])
             bindex=0
             index=0
-            if list_number!=2:
-                lista[list_number-1].clear()
+            '''if list_number!=2:
+                lista[list_number-1].clear()'''
 #tutaj biorę krańcowy bindex. Po przeleceniu przez wszystkie indexy liczymy potem sumy dłuższych o 1 ciągów.
 except KeyError:
 	pass
 
 try:
-	print(count)
-	'''print(lista[1])
-	print(lista[2])
+	print(2*count)
+	print(lista[1])
+	'''print(lista[2])
 	print(lista[3])
-	print(lista[4])
-	print(lista[5])'''
+	print(lista[4])'''
+	print(lista[2])
 #sprawdzenie, tylko po wykasowaniu ostatniego ifa!
 
 except KeyError:
