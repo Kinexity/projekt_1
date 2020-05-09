@@ -83,3 +83,49 @@ except KeyError:
 	pass
 koniec=time.clock()
 print(koniec-start)
+
+#program do liczenia przedziału sumy indeksu
+def factorial(number):
+    fact = 1
+    for i in range(1,number+1):
+        fact = fact * i
+    return fact
+start = time.clock()
+sumka=3
+a=2
+lista=[]
+
+def sublist_sum(lista,subindex,bindex=0,suma=0):
+    while bindex <len(lista2):
+        sumka=sumka+lista2[bindex][subindex]
+        bindex=bindex+1
+    return sumka
+
+#----------------------------------------------------------------------------------------------------------------------
+# sum_index_min i sum_index_max w zależności od długosci ciągu -leng i danej sumy
+start = time.clock()
+sumka=10
+leng=2
+
+list=[]
+x=1
+while m.sqrt((x/2)*(x/2+1))<sumka:
+    x=x+1
+c=x/2
+
+for x in range(1,int(2*c)):
+	list.append([m.sqrt((x/2)*(x/2+1)),str(x-1)])
+
+list=sorted(list,key=lambda x:x[0],reverse=False)
+
+def index_min_sum(leng,s=sumka):
+    for index in range(0,len(list)-1):
+        if leng*list[index][0]<sumka and leng*list[index+1][0]>sumka:
+            return leng*index
+przedzial=leng
+
+print("suma indeksów minimalna:",index_min_sum(leng))
+print("suma indeksów maksymalna:",przedzial+index_min_sum(leng))
+
+koniec=time.clock()
+print(koniec-start)
