@@ -1,131 +1,124 @@
+
+from __future__ import division
+import itertools
 import numpy as np
-import itertools as it
 import math as m
 import time
 import operator
+import array as arr
 
 start = time.clock()
-def factorial(n):
-    fact = 1
-    for i in range(1,n+1):
-        fact = fact * i
-    return fact
-#funkcja silnia
+sumka=4
+#suma maksymalna liczb
+b=0
 list=[]
-sum=7
-print(sum)
-#suma maksymalna cyfr
-
-x=1
-while m.sqrt((x/2)*(x/2+1))<sum:
-    x=x+1
-c=x/2
-
-lista={}
-for q in range(1,int(2*c)):
-	lista[q]=[]
-lista[1]=[]
-#zrobilem słownik list tak żeby było nie za dużo nie za mało
-for x in range(1,int(2*c)):
-	list.append([m.sqrt((x/2)*(x/2+1)),str(x-1)])
-	#list.append([x/2,str(x-1)])
-	#list.append(-x/2)
-#zrobiłem listę podlist długości 2: pierwsza cyfra podlisty- wartość funkcji m.sqrt((x/2)*(x/2+1))
-#od liczby w podanym zbiorze, druga-indeks tej podlisty
-lista[1]=sorted(list,key=lambda x:x[0])
-#sortowanie wzgl. pierwszego elementu podlisty
-index=0
-#indeks list a>1
-bindex=0
-#indeks listy jedynkowej
-count=len(lista[1])
-#szukana liczba ciągów
-list_number=1
-#numer listy
-try:
-    while index<len(lista[list_number]):
-        if lista[list_number][index][0]+lista[1][bindex][0] <sum:
-            if str(lista[list_number][index][1]).find(str(bindex))==-1:
-                lista[list_number+1].append([lista[list_number][index][0]+lista[1][bindex][0],str(lista[list_number][index][1])+str(bindex)])
-            else:
-                lista[list_number+1].append([lista[list_number][index][0]+lista[1][bindex][0],lista[list_number][index][1]+str(bindex)])
-
-            count=count+2**(list_number)
-            index+=1
-#wpierw przelatuje indexy dla ustalonego bindexu i sprawdzam dla każdych dwóch ich sume. Jeśli indeks cyfry z listy początkowej(jedynek) nie wystąpił w drugiej cyfrze
-#podlisty listy sum, to nie dolepiam tego indeksu do zlepku indeksów (drugiej cyfry podlisty), jak nie wystąpił to dolepiam ją do tego zlepka
-#od drugiej linijki z kombinatoryki licze kombinacje dla ewentualnie tych samych bindexów w zlepku i nie tych samych (stosuje dwumian Newtona)
-        if lista[list_number][index][0]+lista[1][bindex][0]>=sum:
-            bindex=bindex+1
-            index=0
-#jak przeleciałem wszystkie indexy, przelatuje znowu te indexy tylko dla bindexu+1. Tu da się coś zoptymalizować.
-        if bindex==len(lista[1])-1 and list_number<2*sum:
-            list_number=list_number+1
-            lista[list_number]=sorted(lista[list_number],key=lambda x:x[0])
-            bindex=0
-            index=0
-            '''if list_number!=2:
-                lista[list_number-1].clear()'''
-#tutaj biorę krańcowy bindex. Po przeleceniu przez wszystkie indexy liczymy potem sumy dłuższych o 1 ciągów.
-except KeyError:
-	pass
-
-try:
-	print(2*count)
-	print(lista[1])
-	'''print(lista[2])
-	print(lista[3])
-	print(lista[4])'''
-	print(lista[2])
-#sprawdzenie, tylko po wykasowaniu ostatniego ifa!
-
-except KeyError:
-	pass
-koniec=time.clock()
-print(koniec-start)
-
-#program do liczenia przedziału sumy indeksu
-def factorial(number):
-    fact = 1
-    for i in range(1,number+1):
-        fact = fact * i
-    return fact
-start = time.clock()
-sumka=3
-a=2
 lista=[]
-
-def sublist_sum(lista,subindex,bindex=0,suma=0):
-    while bindex <len(lista2):
-        sumka=sumka+lista2[bindex][subindex]
-        bindex=bindex+1
-    return sumka
-
-#----------------------------------------------------------------------------------------------------------------------
-# sum_index_min i sum_index_max w zależności od długosci ciągu -leng i danej sumy
-start = time.clock()
-sumka=10
-leng=2
-
-list=[]
 x=1
 while m.sqrt((x/2)*(x/2+1))<sumka:
     x=x+1
 c=x/2
-
+#tworzenie ograniczeń do listy pierwiastkow
 for x in range(1,int(2*c)):
-	list.append([m.sqrt((x/2)*(x/2+1)),str(x-1)])
-
-list=sorted(list,key=lambda x:x[0],reverse=False)
-
+	list.append(m.sqrt((x/2)*(x/2+1)))
+list.sort()
+#tworzenie listy pierwiastkow
+for m in range(0,int(2*c)-1):
+    if list[m]<sumka:
+        jedynka=m+1
+    else:
+        break
+#szukanie ilości jedynek mniejszej od zadanej sumy, czyli indeks największego+1
 def index_min_sum(leng,s=sumka):
     for index in range(0,len(list)-1):
-        if leng*list[index][0]<sumka and leng*list[index+1][0]>sumka:
+        if leng*list[index]<sumka and leng*list[index+1]>sumka:
             return leng*index
-przedzial=leng
+#leng - dlugosc ciagu, szukamy sumy takich indeksów którym odpowiada najbliższa sumie-sumka wiartość
 
-print("suma indeksów minimalna:",index_min_sum(leng))
-print("suma indeksów maksymalna:",przedzial+index_min_sum(leng))
+'''print("suma indeksów minimalna:",index_min_sum(leng))
+print("suma indeksów maksymalna:",index_min_sum(leng)+leng)'''
+#sprawdzenie
 
+def sum_to_n(n, size, limit=None):
+    """Produce all lists of `size` positive integers in decreasing order
+    that add up to `n`."""
+    if size == 1:
+        yield [n]
+        return
+    if limit is None:
+        limit = n
+    start = (n + size - 1) // size
+    stop = min(limit, n - size + 1) + 1
+    for i in range(start, stop):
+        for tail in sum_to_n(n - i, size - 1, i):
+            yield [i] + tail
+#funkcja nie bierze zer, trzeba ją zmodyfikować albo brać te indeksy i pomniejszyć wszystkie o 1
+#wtedy suma indeksów z kombinacji w ciągu długosci leng bedzie mniejsza o leng
+
+'''for partition in sum_to_n(sumka, leng):
+    print (partition)'''
+#sprawdzenie i bazgroly
+lista=[]
+szukana=0
+#indeks przy którym jestesmy najbliżej sumki przy pozostalych indeksach takich samych
+leng=2
+while leng <=int(2*c):
+    i=int(index_min_sum(leng)/leng)
+    while i<=int(index_min_sum(leng)+leng):
+        if list[int(index_min_sum(leng)/leng)]*(leng-1)+list[i]<sumka:
+            szukana=i
+            i+=1
+        else:
+            break
+    '''print(szukana)'''
+    '''print(list)'''
+#szukam jak u cb zwiększając jeden indeks z indeksów takich samych aż osiągnie sumke
+
+    suma_indeksów=(index_min_sum(leng)/leng)*(leng-1)+szukana
+    #suma indeksow jak u cb
+    liczba=0
+    for partition_0 in sum_to_n(int(suma_indeksów)+int(leng), int(leng)):
+#tu uwzględniam to co wspominalem ze liczac od 0 trzeba zwiekszyc sume o leng
+        print (partition_0)
+        sum=0
+#licze sumy-sum czyli sumy pierwiastków odpowiadajacych kombinajcjom indeksow z funkcji sum_to_n
+        for index in partition_0:
+#tu jest blad iteruje po wszytkich pertition zamiast brać indeksy każdej listy z osobna
+            sum=sum+list[index-1]
+            lista.append(sum)
+#lista sum
+    for liczba in lista:
+        if liczba>=sumka:
+            lista.remove(liczba)
+#usuwam te kombinacje  większe od sumki
+    a=max(lista)
+#licze maksymalna dla listy żeby potem wyznaczyc sume graniczną indeksow
+    for partition_1 in sum_to_n(int(suma_indeksów+1)+int(leng), int(leng)):
+#licze takie same sumy jak wyzej ale dla indeksu o 1 większego
+        print (partition_1)
+        sum=0
+        for index in partition_1:
+            sum=sum+list[index-1]
+            lista.append(sum)
+    for liczba in lista:
+        if liczba>=sumka:
+            lista.remove(liczba)
+#tak jak wczesniej usuwam wszystkie wieksze od sumki
+    if max(lista)>a:
+        suma_indeksów+=1
+#porownuje jak zwiekszyla sie dlugosc listy względem poprzedniego a, to część z kombinacji indeksow
+#dajacych sume suma_indeksów+1 jest mniejsza od sumki, czyli jest własniwym indeksem granicznym
+#zamiast suma_indeksów
+    b=b+len(lista)*(2**(leng-1))
+#na początku wzialem b=0. licze wklady do sum od wszystkich dlugosci ciagow o sumach indeksow
+#granicznych. 2**(leng-1) wynika z kombinatoryki
+    print(suma_indeksów)
+    print(lista)
+    '''print(max(lista))'''
+    lista.clear()
+#czyszcze po kazdej dlugosci ciagu
+    leng+=1
+    print(b)
+#-----------------------------------------------------------------------------------------------------------------------------------------
+#dalej trzeba policzyc manualnie kombinacje indeksow o sumach mniejszych (banalne) tylko trzeba uwzglednic ujemne liczby.
 koniec=time.clock()
 print(koniec-start)
