@@ -1,4 +1,3 @@
-
 from __future__ import division
 import itertools
 import numpy as np
@@ -8,9 +7,9 @@ import operator
 import array as arr
 
 start = time.clock()
-sumka=4
+sumka=100
 #suma maksymalna liczb
-b=0
+
 list=[]
 lista=[]
 x=1
@@ -62,6 +61,7 @@ szukana=0
 #indeks przy którym jestesmy najbliżej sumki przy pozostalych indeksach takich samych
 leng=2
 while leng <=int(2*c):
+    b=0
     i=int(index_min_sum(leng)/leng)
     while i<=int(index_min_sum(leng)+leng):
         if list[int(index_min_sum(leng)/leng)]*(leng-1)+list[i]<sumka:
@@ -80,44 +80,53 @@ while leng <=int(2*c):
 #tu uwzględniam to co wspominalem ze liczac od 0 trzeba zwiekszyc sume o leng
         print (partition_0)
         sum=0
-#licze sumy-sum czyli sumy pierwiastków odpowiadajacych kombinajcjom indeksow z funkcji sum_to_n
-        for index in partition_0:
-#tu jest blad iteruje po wszytkich pertition zamiast brać indeksy każdej listy z osobna
-            sum=sum+list[index-1]
-            lista.append(sum)
+        for index in range(0,leng):
+            sum=sum+list[partition_0[index]-1]
+        lista.append(sum)
+        for liczba1 in lista:
+            if liczba1>=sumka:
+                lista.remove(liczba1)
+
 #lista sum
-    for liczba in lista:
-        if liczba>=sumka:
-            lista.remove(liczba)
+    '''for liczba1 in lista:
+        if liczba1>=sumka:
+            lista.remove(liczba1)'''
+
 #usuwam te kombinacje  większe od sumki
     a=max(lista)
 #licze maksymalna dla listy żeby potem wyznaczyc sume graniczną indeksow
     for partition_1 in sum_to_n(int(suma_indeksów+1)+int(leng), int(leng)):
-#licze takie same sumy jak wyzej ale dla indeksu o 1 większego
+#tu uwzględniam to co wspominalem ze liczac od 0 trzeba zwiekszyc sume o leng
         print (partition_1)
         sum=0
-        for index in partition_1:
-            sum=sum+list[index-1]
-            lista.append(sum)
-    for liczba in lista:
-        if liczba>=sumka:
-            lista.remove(liczba)
+        for index in range(0,leng):
+            sum=sum+list[partition_1[index]-1]
+        lista.append(sum)
+        for liczba2 in lista:
+            if liczba2>=sumka:
+                lista.remove(liczba2)
+#lista sum
+    '''print(lista)'''
 #tak jak wczesniej usuwam wszystkie wieksze od sumki
     if max(lista)>a:
-        suma_indeksów+=1
+        b=1
 #porownuje jak zwiekszyla sie dlugosc listy względem poprzedniego a, to część z kombinacji indeksow
 #dajacych sume suma_indeksów+1 jest mniejsza od sumki, czyli jest własniwym indeksem granicznym
 #zamiast suma_indeksów
-    b=b+len(lista)*(2**(leng-1))
+    '''b=b+len(lista)*(2**(leng-1))'''
 #na początku wzialem b=0. licze wklady do sum od wszystkich dlugosci ciagow o sumach indeksow
 #granicznych. 2**(leng-1) wynika z kombinatoryki
-    print(suma_indeksów)
-    print(lista)
-    '''print(max(lista))'''
+
+    print(suma_indeksów+b)
+    #szukany indeks graniczny
+    '''print(lista)'''
+    print(max(lista))
+    #maksymalna suma mniejsza od a
     lista.clear()
-#czyszcze po kazdej dlugosci ciagu
+#czyszcze po kazdej dlugosci ciagu'''
     leng+=1
-    print(b)
+    '''print(b)'''
+
 #-----------------------------------------------------------------------------------------------------------------------------------------
 #dalej trzeba policzyc manualnie kombinacje indeksow o sumach mniejszych (banalne) tylko trzeba uwzglednic ujemne liczby.
 koniec=time.clock()
